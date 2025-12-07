@@ -47,11 +47,6 @@ export default function RouteTableRow({ data, onViewDetails }: RouteTableRowProp
                         </button>
                     </CustomTooltip>
                     
-                    <CustomTooltip content="Chỉnh sửa tuyến đường">
-                        <button className="text-blue-500 hover:text-blue-700 p-1 rounded hover:bg-blue-50">
-                            <Pencil className="w-4 h-4" />
-                        </button>
-                    </CustomTooltip>
                     
                     <CustomTooltip content="Xóa tuyến đường">
                         <button className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
