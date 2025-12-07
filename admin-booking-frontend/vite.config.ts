@@ -7,4 +7,5 @@ export default defineConfig({
     react(), // <-- Nếu bạn dùng @vitejs/plugin-react
     tailwindcss(), // <-- Phải gọi plugin này
   ],
+  
 })

@@ -47,16 +47,16 @@ const AdminMenus = [
   {
     title: "Chức năng Chính",
     items: [
-      { name: "Tổng quan", path: "/" },
-      { name: "Danh sách Đặt vé", path: "/admin/bookings" }, 
+      { name: "Tổng quan", path: "/admin" },
+      { name: "Danh sách Đặt vé", path: "/admin/bookings" }, // Quản lý đặt vé
     ],
   },
   {
     title: "Quản lý Vận hành",
     items: [
       { name: "Tuyến đường & Điểm dừng", path: "/admin/routes" },
-      { name: "Lịch trình Chuyến đi", path: "/admin/schedules" },
-      { name: "Đội xe & Cấu hình Ghế", path: "/admin/buses" }, 
+      { name: "Lịch trình Chuyến đi", path: "/admin/schedules" }, // Thay thế cho Trips
+      { name: "Đội xe & Cấu hình Ghế", path: "/admin/buses" }, // Thay thế cho Quản lý Xe buýt
     ],
   },
   {
@@ -77,6 +77,7 @@ const AdminMenus = [
 
 // -----------------------------------------------------------
 // 3. COMPONENT: Sidebar
+// Cập nhật logic render để hiển thị các nhóm (sections)
 // -----------------------------------------------------------
 export default function Sidebar() {
   return (
@@ -89,12 +90,16 @@ export default function Sidebar() {
       <nav className="flex flex-col space-y-4">
         {AdminMenus.map((section, sectionIndex) => (
           <div key={section.title} className="space-y-1">
+            {/* Tiêu đề nhóm (Section Title) */}
             <h3 className="text-xs font-bold uppercase text-gray-400 px-2 pt-2">
               {section.title}
             </h3>
+
+            {/* Các mục con (Items) */}
             {section.items.map((m) => (
               <NavLink
                 key={m.path}
+                // Điều chỉnh đường dẫn để tránh xung đột, ví dụ: bắt đầu bằng /admin
                 to={m.path} 
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-lg hover:bg-blue-50 flex items-center space-x-3 transition-colors text-sm ${
@@ -104,11 +109,13 @@ export default function Sidebar() {
                   }`
                 }
               >
+                {/* Lấy Icon tương ứng */}
                 {getLucideIcon(m.name)}
 
                 <span>{m.name}</span>
               </NavLink>
             ))}
+            {/* Thêm đường phân cách giữa các nhóm */}
             {sectionIndex < AdminMenus.length - 1 && (
                 <hr className="my-2 border-gray-100" />
             )}

@@ -1,11 +1,6 @@
-// Helper function để định dạng tiền tệ Việt Nam (đ)
-export const formatCurrency = (amount: number): string => {
-  return amount.toLocaleString('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-    minimumFractionDigits: 0
-  }).replace('₫', 'đ'); // Thay thế ký hiệu ₫ bằng đ để khớp với ảnh
-};
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-// Helper function để mô phỏng độ trễ mạng
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export function cn(...inputs: any[]) {
+  return twMerge(clsx(inputs));
+}
