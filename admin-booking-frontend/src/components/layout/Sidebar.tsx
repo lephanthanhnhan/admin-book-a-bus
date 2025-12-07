@@ -1,23 +1,39 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Map, Book, Users, UserCog, Settings, Bus } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Map, 
+  Bus, 
+  CalendarDays, 
+  BookOpen, 
+  Users, 
+  BarChart4, 
+  MessageSquareText, 
+  Settings, 
+} from "lucide-react";
 
 // -----------------------------------------------------------
-// 1. HÀM TRỢ GIÚP: getIcon
-// Chứa mã SVG cho các icon
+// 1. ICON
 // -----------------------------------------------------------
 const getLucideIcon = (name) => {
   switch (name) {
-    case "Dashboard":
+    case "Tổng quan":
       return <LayoutDashboard className="h-5 w-5" />;
-    case "Bus Routes":
+    case "Tuyến đường & Điểm dừng":
       return <Map className="h-5 w-5" />;
-    case "Bookings":
-      return <Book className="h-5 w-5" />;
-    case "Users":
+    case "Lịch trình Chuyến đi":
+      return <CalendarDays className="h-5 w-5" />;
+    case "Đội xe & Cấu hình Ghế":
+      return <Bus className="h-5 w-5" />;
+    case "Danh sách Đặt vé":
+      return <BookOpen className="h-5 w-5" />;
+    case "Quản lý Người dùng":
       return <Users className="h-5 w-5" />;
-    case "Drivers":
-      return <UserCog className="h-5 w-5" />; 
-    case "Settings":
+    case "Đánh giá & Phản hồi":
+      return <MessageSquareText className="h-5 w-5" />;
+    case "Báo cáo Doanh thu":
+      // Dùng chung cho cả Phân tích Đặt vé nếu không muốn tách riêng
+      return <BarChart4 className="h-5 w-5" />; 
+    case "Cài đặt Hệ thống":
       return <Settings className="h-5 w-5" />;
     default:
       return null;
@@ -25,46 +41,78 @@ const getLucideIcon = (name) => {
 };
 
 // -----------------------------------------------------------
-// 2. COMPONENT: Sidebar
+// 2. MENU
+// -----------------------------------------------------------
+const AdminMenus = [
+  {
+    title: "Chức năng Chính",
+    items: [
+      { name: "Tổng quan", path: "/" },
+      { name: "Danh sách Đặt vé", path: "/admin/bookings" }, 
+    ],
+  },
+  {
+    title: "Quản lý Vận hành",
+    items: [
+      { name: "Tuyến đường & Điểm dừng", path: "/admin/routes" },
+      { name: "Lịch trình Chuyến đi", path: "/admin/schedules" },
+      { name: "Đội xe & Cấu hình Ghế", path: "/admin/buses" }, 
+    ],
+  },
+  {
+    title: "Quản lý Khách hàng",
+    items: [
+      { name: "Quản lý Người dùng", path: "/admin/users" },
+      { name: "Đánh giá & Phản hồi", path: "/admin/reviews" },
+    ],
+  },
+  {
+    title: "Phân tích & Cấu hình",
+    items: [
+      { name: "Báo cáo Doanh thu", path: "/admin/analytics" }, 
+      { name: "Cài đặt Hệ thống", path: "/admin/settings" },
+    ],
+  },
+];
+
+// -----------------------------------------------------------
+// 3. COMPONENT: Sidebar
 // -----------------------------------------------------------
 export default function Sidebar() {
-  const menus = [
-    { name: "Dashboard", path: "/" },
-    { name: "Bus Routes", path: "/routes" },
-    { name: "Bookings", path: "/bookings" },
-    { name: "Users", path: "/users" },
-    { name: "Drivers", path: "/drivers" },
-    { name: "Settings", path: "/settings" },
-  ];
-
   return (
-    <aside className="w-56 bg-white border-r p-5 space-y-4">
-      <h1 className="text-xl font-bold text-blue-600 flex items-center space-x-2 pb-2">
+    <aside className="w-64 bg-white border-r p-5 space-y-4 shadow-lg">
+      <h1 className="text-xl font-bold text-blue-600 flex items-center space-x-2 pb-4 border-b">
         <Bus className="h-6 w-6" />
-        <span>BusAdmin</span>
+        <span>BusAdmin Panel</span>
       </h1>
 
-      <nav className="flex flex-col space-y-2">
-        {menus.map((m) => (
-          <NavLink
-            key={m.path}
-            to={m.path}
-            className={({ isActive }) =>
+      <nav className="flex flex-col space-y-4">
+        {AdminMenus.map((section, sectionIndex) => (
+          <div key={section.title} className="space-y-1">
+            <h3 className="text-xs font-bold uppercase text-gray-400 px-2 pt-2">
+              {section.title}
+            </h3>
+            {section.items.map((m) => (
+              <NavLink
+                key={m.path}
+                to={m.path} 
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-lg hover:bg-blue-50 flex items-center space-x-3 transition-colors text-sm ${
+                    isActive
+                      ? "bg-blue-100 text-blue-700 font-semibold"
+                      : "text-gray-600"
+                  }`
+                }
+              >
+                {getLucideIcon(m.name)}
 
-              `px-4 py-2 rounded-md hover:bg-blue-50 flex items-center space-x-3 transition-colors ${ 
-                isActive 
-                  ? "bg-blue-100 text-blue-600 font-semibold" 
-                  : "text-gray-600"
-              }`
-            }
-          >
-
-            <span className="text-xl">
-              {getLucideIcon(m.name)} 
-            </span>
-
-            <span>{m.name}</span>
-          </NavLink>
+                <span>{m.name}</span>
+              </NavLink>
+            ))}
+            {sectionIndex < AdminMenus.length - 1 && (
+                <hr className="my-2 border-gray-100" />
+            )}
+          </div>
         ))}
       </nav>
     </aside>
