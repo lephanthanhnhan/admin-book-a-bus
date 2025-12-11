@@ -11,7 +11,7 @@ export default function RouteTable({ onViewDetails }: RouteTableProps) {
       name: "HN – SGH",
       from: "Hà Nội",
       to: "TP Hồ Chí Minh",
-      stops: 8,
+      stops: 3,
       time: "15h 30m",
     },
     {
