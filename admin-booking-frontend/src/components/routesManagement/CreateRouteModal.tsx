@@ -102,7 +102,7 @@ const StopItem: React.FC<StopItemProps> = ({
             className="p-2 ml-4 hover:bg-red-50 text-red-600 rounded transition-colors cursor-pointer"
             aria-label="Xóa điểm dừng"
           >
-            <Trash2 size={16} /> 
+            <Trash2 size={16} />
           </button>
         )}
       </div>
@@ -243,7 +243,9 @@ export default function CreateRouteModal({
 
   const updateStop = (id: string, field: keyof Stop, value: string) => {
     setStops(
-      stops.map((stop) => (stop.id === id ? { ...stop, [field]: value } : stop))
+      stops.map((stop) =>
+        stop.id === id ? { ...stop, [field]: value } : stop,
+      ),
     );
   };
 
@@ -282,8 +284,8 @@ export default function CreateRouteModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white shadow-2xl rounded-xl">
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center z-10">
+      <Card className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white shadow-2xl rounded-xl hide-scrollbar">
+        <div className=" top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center z-10">
           <h2 className="text-2xl font-bold text-gray-900">
             Tạo tuyến đường mới
           </h2>
@@ -293,117 +295,99 @@ export default function CreateRouteModal({
             className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Đóng"
           >
-          <X className="cursor-pointer" size={24} />
+            <X className="cursor-pointer" size={24} />
           </button>
         </div>
-{/* FORM */}
+        {/* FORM */}
         <form onSubmit={handleSubmit} className="p-6 space-y-8">
           {/* BASIC INFO */}
           <div className="space-y-4">
-            
             <Input
               placeholder="Tên tuyến (VD: HN - SG)"
               value={routeName}
               onChange={(e) => setRouteName(e.target.value)}
               className="h-12 text-base border-gray-300" // Làm Input lớn hơn
             />
-            
+
             <div className="grid grid-cols-2 gap-4">
-                {/* SELECT CITIES */} 
+              {/* SELECT CITIES */}
               <select
                 value={startCity}
                 onChange={(e) => setStartCity(e.target.value)}
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow"
               >
-                  
                 <option value="" disabled>
                   Thành phố khởi hành
                 </option>
-                  
+
                 {cities.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
-                 
               </select>
-               
+
               <select
                 value={endCity}
                 onChange={(e) => setEndCity(e.target.value)}
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 appearance-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow"
               >
-                  
                 <option value="" disabled>
                   Thành phố đến
                 </option>
-                  
+
                 {cities.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
-                 
               </select>
-              
             </div>
-                
           </div>
-               {/* STATS - Đã thay đổi màu nền để giống ảnh mẫu hơn */} 
-            
+          {/* STATS - Đã thay đổi màu nền để giống ảnh mẫu hơn */}
+
           <div className="grid grid-cols-3 gap-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
-            
             <div>
-               
               <p className="text-sm font-medium text-blue-700">Số điểm dừng</p>
-              
+
               <p className="text-3xl font-extrabold text-gray-900 mt-1">
                 {stops.length}
               </p>
-              
             </div>
-            
+
             <div>
-               
               <p className="text-sm font-medium text-blue-700">
                 Thời gian dự kiến
               </p>
-               
+
               <p className="text-3xl font-extrabold text-red-600 mt-1">
                 {calculateDuration()}
               </p>
-              
             </div>
-            
+
             <div>
-               
-              <p className="text-sm font-medium text-blue-700">Trạng thái</p> 
-                  
+              <p className="text-sm font-medium text-blue-700">Trạng thái</p>
+
               <Badge className="mt-1 bg-blue-200 text-blue-800 font-semibold text-sm py-1 px-3">
                 Nháp
               </Badge>
-              
             </div>
-                
           </div>
-               {/* STOPS */}    
+          {/* STOPS */}
           <div className="space-y-4">
-            
             <div className="flex justify-between items-center">
-               
-              <h3 className="font-bold text-xl text-gray-900">Điểm Dừng</h3> 
-                  
+              <h3 className="font-bold text-xl text-gray-900">Điểm Dừng</h3>
+
               <Button
                 type="button"
                 variant="outline"
                 onClick={addStop}
                 className="gap-2 border-blue-500 text-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
               >
-                   <Plus size={16} /> Thêm điểm dừng  
+                <Plus size={16} /> Thêm điểm dừng
               </Button>
-              
             </div>
-             {/* Render StopItem component */}
+            {/* Render StopItem component */}
             {stops.map((stop, idx) => (
               <StopItem
                 key={stop.id}
@@ -414,34 +398,28 @@ export default function CreateRouteModal({
                 removeStop={removeStop}
               />
             ))}
-                
           </div>
-               {/* ACTIONS - Nút chính màu xanh đậm */}    
+          {/* ACTIONS - Nút chính màu xanh đậm */}
           <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
-            
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               className="px-6 py-2 cursor-pointer"
             >
-                Hủy 
+              Hủy
             </Button>
-             {/* Đổi màu nút Submit thành màu xanh đậm để nổi bật */}
-            
+            {/* Đổi màu nút Submit thành màu xanh đậm để nổi bật */}
+
             <Button
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 shadow-md transition-colors cursor-pointer"
             >
-                Xác nhận tạo tuyến 
+              Xác nhận tạo tuyến
             </Button>
-                
           </div>
-             
         </form>
-          
       </Card>
-          
     </div>
   );
 }

@@ -3,6 +3,7 @@ import DashboardPage from "../pages/DashboardPage";
 import RoutesPage from "../pages/RoutesPage";
 import BookingManagementPage from "../pages/BookingManagementPage";
 import MainLayout from "../components/layout/MainLayout";
+import { TripManagementPage } from "../pages/TripManagementPage";
 
 export default function AppRoutes() {
   return (
@@ -11,6 +12,7 @@ export default function AppRoutes() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/bookings" element={<BookingManagementPage />} />
+        <Route path="/admin/trips" element={<TripManagementPage />} />
         {/* Tuyến đường */}
         <Route path="/admin/routes" element={<RoutesPage />} />
       </Routes>

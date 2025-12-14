@@ -92,7 +92,7 @@ const BookingManagementPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen">
       <div className="mb-6 flex justify-between items-center">
         {/* Bên trái */}
         <div>

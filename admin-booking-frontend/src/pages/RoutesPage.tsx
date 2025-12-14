@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import RouteSearchBar from "../components/trips/RouteSearchBar";
-import CreateRouteButton from "../components/trips/CreateRouteButton";
-import RouteTable from "../components/trips/RouteTable";
-import StopsModal from "../components/trips/StopsModal";
-import CreateRouteModal from "../components/trips/CreateRouteModal";
+import RouteSearchBar from "../components/routesManagement/RouteSearchBar";
+import CreateRouteButton from "../components/routesManagement/CreateRouteButton";
+import RouteTable from "../components/routesManagement/RouteTable";
+import StopsModal from "../components/routesManagement/StopsModal";
+import CreateRouteModal from "../components/routesManagement/CreateRouteModal";
 
 import type { Stop } from "../types/stop";
 
@@ -68,7 +68,7 @@ export default function RoutesPage(): JSX.Element {
   const handleCloseModal = () => setSelectedRouteDetails(null);
 
   return (
-    <div className="p-2 bg-gray-50 min-h-screen">
+    <div className="p-8 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">

@@ -176,21 +176,20 @@
   }
 }
 
-
 /* src/index.css */
 
 /* Thêm vào file CSS chính của bạn (ví dụ: index.css) */
 
 /* SỬA ĐỔI LỚP CSS NÀY */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px; 
+  width: 8px;
   height: 8px;
   /* Lớp này phải tồn tại để Chrome biết có thanh cuộn */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   /* MÀU SẮC BAN ĐẦU: Đặt màu trong suốt hoặc màu rất nhạt */
-  background-color: transparent; 
+  background-color: transparent;
   border-radius: 10px;
 }
 
@@ -198,4 +197,13 @@
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
   /* Khi di chuột vào khối cuộn, thanh cuộn hiện ra */
   background-color: #9ca3af; /* Màu xám nhạt khi hover */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* Ẩn scrollbar trên IE, Edge */
+  scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Ẩn scrollbar trên Chrome, Safari */
 }
