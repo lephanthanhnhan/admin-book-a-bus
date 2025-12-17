@@ -4,6 +4,7 @@ import RoutesPage from "../pages/RoutesPage";
 import BookingManagementPage from "../pages/BookingManagementPage";
 import MainLayout from "../components/layout/MainLayout";
 import { TripManagementPage } from "../pages/TripManagementPage";
+import FleetManagementPage from "../pages/FleetManagementPage";
 
 export default function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
         <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/bookings" element={<BookingManagementPage />} />
         <Route path="/admin/trips" element={<TripManagementPage />} />
+        <Route path="/admin/fleets" element={<FleetManagementPage />} />
         {/* Tuyến đường */}
         <Route path="/admin/routes" element={<RoutesPage />} />
       </Routes>

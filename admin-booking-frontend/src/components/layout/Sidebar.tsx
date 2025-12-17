@@ -68,7 +68,7 @@ const AdminMenus = [
     items: [
       { name: "Tuyến đường & Điểm dừng", path: "/admin/routes" },
       { name: "Lịch trình Chuyến đi", path: "/admin/trips" },
-      { name: "Đội xe & Cấu hình Ghế", path: "/admin/buses" },
+      { name: "Đội xe & Cấu hình Ghế", path: "/admin/fleets" },
     ],
   },
   {

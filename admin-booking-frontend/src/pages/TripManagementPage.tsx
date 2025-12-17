@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Trip, TripFilter } from "../types/trip";
-import { mockTrips } from "../types/trip";
+import { mockTrips } from "../data/tripMock";
 import { TripFilterPanel } from "../components/trips/TripFilterPanel";
 import { TripManagementTable } from "../components/trips/TripManagementTable";
 import { TripFormModal } from "../components/trips/TripFormModal";

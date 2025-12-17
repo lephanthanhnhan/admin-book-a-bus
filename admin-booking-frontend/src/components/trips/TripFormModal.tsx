@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { X, AlertTriangle } from "lucide-react";
 import type { Trip, TripStatus } from "../../types/trip";
 import { mockRoutes } from "../../types/route";
-import { mockTrips } from "../../types/trip";
+import { mockTrips } from "../../data/tripMock";
+import { mockFleet } from "../../data/fleetMock"; // ✅ Thêm dòng này để lấy dữ liệu đội xe
 
 interface TripFormModalProps {
   open: boolean;
@@ -46,10 +47,6 @@ const generateTripId = (trips: Trip[]) => {
 
   const maxIdNum = numericIds.length > 0 ? Math.max(...numericIds) : 0;
   const newIdNum = maxIdNum + 1;
-  console.log(
-    "DEBUG generateTripId:",
-    numericIds.length > 0 ? Math.max(...numericIds) : 0,
-  );
 
   return `T${newIdNum.toString().padStart(5, "0")}`;
 };
@@ -62,11 +59,9 @@ export function TripFormModal({
 }: TripFormModalProps) {
   const [formData, setFormData] = useState<Omit<Trip, "id">>(initialFormState);
 
+  // ✅ Đồng bộ dữ liệu khi mở modal
   useEffect(() => {
-    // Chỉ chạy khi modal mở
     if (!open) return;
-
-    // Dùng queue microtask để tránh setState sync
     Promise.resolve().then(() => {
       if (tripToEdit) {
         const { ...rest } = tripToEdit;
@@ -97,7 +92,7 @@ export function TripFormModal({
 
   if (!open) return null;
 
-  const title = tripToEdit ? "Chỉnh Sửa Chuyến Đi" : "Thêm Chuyến đi Mới";
+  const title = tripToEdit ? "Chỉnh Sửa Chuyến Đi" : "Thêm Chuyến Đi Mới";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 shadow-sm transition-all">
@@ -135,7 +130,7 @@ export function TripFormModal({
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                disabled={!tripToEdit} // ✅ Nếu là tạo mới (tripToEdit === null) thì khóa
+                disabled={!tripToEdit}
                 className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                   !tripToEdit
                     ? "bg-gray-100 cursor-not-allowed text-gray-500"
@@ -149,11 +144,9 @@ export function TripFormModal({
                   </option>
                 ))}
               </select>
-              {/* Ghi chú nhỏ khi thêm mới */}
               {!tripToEdit && (
                 <p className="text-xs text-gray-500 mt-1">
-                  Trạng thái mặc định là <strong>Sắp khởi hành</strong> khi tạo
-                  mới.
+                  Trạng thái mặc định là <strong>Sắp khởi hành</strong>.
                 </p>
               )}
             </div>
@@ -171,12 +164,12 @@ export function TripFormModal({
                     (r) => r.id.toString() === e.target.value,
                   );
                   const fullRouteName = selected
-                    ? `${selected.from} - ${selected.to}` // Ví dụ: "Hà Nội - TP Hồ Chí Minh"
+                    ? `${selected.from} - ${selected.to}`
                     : "";
                   setFormData((prev) => ({
                     ...prev,
                     routeId: e.target.value,
-                    routeName: fullRouteName || "",
+                    routeName: fullRouteName,
                     departurePoint: selected?.from || "",
                     arrivalPoint: selected?.to || "",
                   }));
@@ -233,8 +226,38 @@ export function TripFormModal({
             </div>
           </div>
 
-          {/* Row 4: Nhà xe & Biển số */}
+          {/* ✅ Row 4: Chọn xe trong đội xe */}
           <div className="grid grid-cols-2 gap-4">
+            {/* Biển số xe */}
+            <div>
+              <label className="block text-gray-600 mb-1">Biển số xe</label>
+              <select
+                name="busPlate"
+                value={formData.busPlate}
+                onChange={(e) => {
+                  const selectedPlate = e.target.value;
+                  const selectedVehicle = mockFleet.find(
+                    (v) => v.licensePlate === selectedPlate,
+                  );
+                  setFormData((prev) => ({
+                    ...prev,
+                    busPlate: selectedPlate,
+                    busCompanyName: selectedVehicle?.name || "",
+                  }));
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                required
+              >
+                <option value="">Chọn xe theo biển số</option>
+                {mockFleet.map((vehicle) => (
+                  <option key={vehicle.id} value={vehicle.licensePlate}>
+                    {vehicle.licensePlate} — {vehicle.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Nhà xe / Tên xe */}
             <div>
               <label className="block text-gray-600 mb-1">
                 Nhà xe / Tên xe
@@ -242,23 +265,10 @@ export function TripFormModal({
               <input
                 type="text"
                 name="busCompanyName"
-                value={formData.busCompanyName || ""}
-                onChange={handleChange}
-                placeholder="Ví dụ: Futa Bus Lines"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-gray-600 mb-1">Biển số xe</label>
-              <input
-                type="text"
-                name="busPlate"
-                value={formData.busPlate}
-                onChange={handleChange}
-                placeholder="Ví dụ: 51B-12345"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
+                value={formData.busCompanyName}
+                readOnly
+                disabled
+                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600"
               />
             </div>
           </div>
